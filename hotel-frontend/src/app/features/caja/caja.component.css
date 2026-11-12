@@ -1,0 +1,11 @@
+.btn-hotel-gold {
+  background-color: #AE9F71;
+  color: #161616;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-hotel-gold:hover {
+  background-color: #988a60;
+  color: #ffffff;
+}

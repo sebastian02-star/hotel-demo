@@ -1,0 +1,99 @@
+
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  background-color: #f4f6f9;
+}
+
+
+.login-banner {
+  flex: 1;
+  background: url('https://i.pinimg.com/736x/d8/1b/bc/d81bbc54e0bd682c6c5e51e55b7fac10.jpg') no-repeat center center;
+  background-size: cover;
+  position: relative;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(26, 48, 81, 0.88), rgba(174, 159, 113, 0.75));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-hotel {
+  background-color: #AE9F71;
+  color: #161616;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+
+.login-form-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #FFFFFF;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  border: none;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+}
+
+.brand-title {
+  color: #1A3051; 
+  font-weight: 700;
+}
+
+.brand-subtitle {
+  color: #AE9F71; 
+  font-weight: 500;
+}
+
+
+.btn-hotel {
+  background-color: #1A3051;
+  color: #FFFFFF;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-hotel:hover {
+  background-color: #12223a;
+  color: #FFFFFF;
+  box-shadow: 0px 4px 12px rgba(26, 48, 81, 0.35);
+}
+
+.form-control:focus {
+  border-color: #AE9F71;
+  box-shadow: 0 0 0 0.25rem rgba(174, 159, 113, 0.25);
+}
+
+.forgot-link, .register-link {
+  color: #AE9F71;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover, .register-link:hover {
+  color: #1A3051;
+  text-decoration: underline;
+}

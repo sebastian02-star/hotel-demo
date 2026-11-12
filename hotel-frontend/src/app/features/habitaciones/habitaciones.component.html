@@ -1,0 +1,165 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold" style="color: #1A3051;">Control de Habitaciones</h2>
+      <p class="text-muted mb-0">Estado actual y disponibilidad de la infraestructura hotelera</p>
+    </div>
+    <div class="d-flex gap-2">
+      
+      <a routerLink="../tipos-habitacion" class="btn btn-outline-secondary">
+        <i class="bi bi-tags me-1"></i> Crear Tipos de Habitacion
+      </a>
+
+
+      <button class="btn btn-hotel-gold" (click)="abrirModal()">
+        <i class="bi bi-plus-circle me-1"></i> Nueva Habitación
+      </button>
+    </div>
+  </div>
+
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+  </div>
+
+
+  <div class="row g-4">
+    <div class="col-md-4 col-lg-3" *ngFor="let hab of habitaciones">
+      <div class="card shadow-sm border-0 h-100 d-flex flex-column">
+        <div class="card-body flex-grow-1">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="fw-bold mb-0 text-navy">Habitación #{{ hab.numeroHabitacion }}</h5>
+            <span class="badge" 
+                [ngClass]="{
+                  'bg-success': hab.estado === 'DISPONIBLE',
+                  'bg-danger': hab.estado === 'OCUPADA',
+                  'bg-warning text-dark': hab.estado === 'MANTENIMIENTO',
+                  'bg-info text-dark': hab.estado === 'LIMPIEZA'
+                }">
+              {{ hab.estado }}
+            </span>
+          </div>
+          <p class="text-muted small mb-1">Tipo: <strong>{{ hab.tipoHabitacion?.nombre }}</strong></p>
+          <p class="text-muted small mb-1">Piso: <strong>{{ hab.piso }}</strong></p>
+          <p class="text-muted small mb-3">Precio: <strong>S/ {{ hab.precioNoche | number:'1.2-2' }}</strong></p>
+          <p class="text-secondary small fst-italic" *ngIf="hab.descripcion">{{ hab.descripcion }}</p>
+        </div>
+
+        <div class="card-footer bg-white border-0 d-flex justify-content-end gap-2 pb-3">
+          <button class="btn btn-sm btn-outline-primary" (click)="abrirModal(hab)" title="Editar">
+            <i class="bi bi-pencil"></i> Editar
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="confirmarDesactivar(hab.id!)" title="Desactivar">
+            <i class="bi bi-trash"></i> Desactivar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade show" tabindex="-1" style="display: block; background: rgba(0,0,0,0.5);" *ngIf="isModalOpen">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">{{ editandoId ? 'Editar Habitación' : 'Registrar Nueva Habitación' }}</h5>
+          <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="habitacionForm" (ngSubmit)="guardarHabitacion()">
+            
+            <div class="mb-3">
+              <label class="form-label">Número de Habitación</label>
+              <input type="text" class="form-control" formControlName="numeroHabitacion" placeholder="Ej. 101">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Tipo de Habitación</label>
+              <select class="form-select" formControlName="tipoHabitacion">
+                <option [ngValue]="null" disabled>Seleccione un tipo</option>
+                <option *ngFor="let tipo of tiposHabitacion" [ngValue]="tipo">
+                  {{ tipo.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Piso</label>
+              <input type="number" class="form-control" formControlName="piso">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Precio por Noche (S/)</label>
+              <input type="number" step="0.01" class="form-control" formControlName="precioNoche">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Estado</label>
+              <select class="form-select" formControlName="estado">
+                <option value="DISPONIBLE">DISPONIBLE</option>
+                <option value="OCUPADA">OCUPADA</option>
+                <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                <option value="LIMPIEZA">LIMPIEZA</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" formControlName="descripcion" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="habitacionForm.invalid">Guardar</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" [ngClass]="{'show d-block': successMessage}" tabindex="-1" *ngIf="successMessage" style="background-color: rgba(0,0,0,0.5); backdrop-filter: blur(2px);">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg text-center p-3" style="border-radius: 16px;">
+        <div class="modal-body">
+          <div class="mb-3 text-success">
+            <i class="bi bi-check-circle-fill" style="font-size: 3rem;"></i>
+          </div>
+          <h5 class="fw-bold mb-2" style="color: #1A3051;">¡Éxito!</h5>
+          <p class="text-muted small mb-4">{{ successMessage }}</p>
+          <button type="button" class="btn btn-success w-100 rounded-pill py-2" (click)="successMessage = ''">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" [ngClass]="{'show d-block': isConfirmModalOpen}" tabindex="-1" *ngIf="isConfirmModalOpen" style="background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+        <div class="modal-header text-white" style="background: #1e293b;">
+          <h5 class="modal-title fs-6 fw-semibold">
+            <i class="bi bi-exclamation-triangle text-warning me-2"></i> Confirmar Desactivación
+          </h5>
+          <button type="button" class="btn-close btn-close-white" (click)="cerrarConfirmModal()"></button>
+        </div>
+        <div class="modal-body py-4 text-center">
+          <p class="text-secondary mb-0 fs-6">¿Estás seguro de desactivar/eliminar esta habitación?</p>
+          <small class="text-muted">El registro dejará de estar disponible en la infraestructura.</small>
+        </div>
+        <div class="modal-footer bg-light justify-content-center border-0 pb-3">
+          <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" (click)="cerrarConfirmModal()">Cancelar</button>
+          <button type="button" class="btn btn-danger px-4 rounded-pill" (click)="ejecutarDesactivacion()">Sí, desactivar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

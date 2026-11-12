@@ -1,0 +1,32 @@
+
+
+.btn-outline-secondary{
+  background-color: #1A3051;
+}
+h2 {
+  color: #1A3051;
+}
+
+.table {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.table th {
+  background-color: #f8f9fa;
+  color: #1A3051;
+  font-weight: 600;
+}
+
+
+.modal {
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}

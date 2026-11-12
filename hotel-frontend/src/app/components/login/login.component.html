@@ -1,0 +1,77 @@
+<div class="login-wrapper">
+
+  <div class="login-banner d-none d-lg-flex">
+    <div class="banner-overlay">
+      <div class="banner-content text-center text-white p-4">
+        <h1 class="display-4 fw-bold mb-2">SICIG Hotel</h1>
+        <p class="fs-5 mb-4">Sistema de Gestión y Control Hotelero</p>
+        <span class="badge-hotel">Aloha Experience</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="login-form-container">
+    <div class="card shadow-lg p-4 login-card" style="width: 100%; max-width: 400px;">
+      
+      <div class="text-center mb-4">
+        <h2 class="fw-bold brand-title">ACCESO AL SISTEMA</h2>
+        <p class="brand-subtitle mb-0">Ingrese sus credenciales corporativas</p>
+      </div>
+
+
+      <div *ngIf="errorMessage" class="alert alert-danger py-2 text-center" role="alert">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        
+
+        <div class="mb-3">
+          <label for="username" class="form-label fw-semibold" style="color: #1A3051;">Usuario</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white text-secondary"><i class="bi bi-person"></i></span>
+            <input 
+              type="text" 
+              id="username" 
+              class="form-control" 
+              formControlName="username"
+              [ngClass]="{'is-invalid': loginForm.get('username')?.touched && loginForm.get('username')?.invalid}"
+              placeholder="Ingrese su usuario">
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.hasError('required')">
+            El usuario es obligatorio.
+          </div>
+        </div>
+
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="password" class="form-label fw-semibold mb-0" style="color: #1A3051;">Contraseña</label>
+            <a href="#" (click)="showRecovery($event)" class="forgot-link">¿Olvidaste tu contraseña?</a>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text bg-white text-secondary"><i class="bi bi-lock"></i></span>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-control" 
+              formControlName="password"
+              [ngClass]="{'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}"
+              placeholder="••••••••">
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('required')">
+            La contraseña es obligatoria.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-hotel w-100 py-2 mt-3" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ isLoading ? 'Validando...' : 'Iniciar Sesión' }}
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+</div>

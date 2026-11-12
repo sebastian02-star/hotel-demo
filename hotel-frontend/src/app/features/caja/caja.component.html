@@ -1,0 +1,56 @@
+<div class="container-fluid py-4">
+  <div class="mb-4">
+    <h2 class="fw-bold" style="color: #1A3051;">Control de Caja y Cierres</h2>
+    <p class="text-muted mb-0">Administración financiera y supervisión de turnos de recepción</p>
+  </div>
+
+
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 p-4">
+        <h4 class="fw-bold mb-3" style="color: #1A3051;">Estado Actual del Turno</h4>
+        
+        <div class="mb-3">
+          <span class="badge fs-6 px-3 py-2" 
+                [ngClass]="cajaActual?.estadoCaja === 'ABIERTA' ? 'bg-success' : 'bg-danger'">
+            Caja: {{ cajaActual?.estadoCaja || 'CERRADA' }}
+          </span>
+        </div>
+
+        <p class="text-muted mb-2">Monto de Apertura: <strong>S/ {{ cajaActual?.montoApertura || 0 | number:'1.2-2' }}</strong></p>
+        <p class="text-muted mb-4">Fecha de Apertura: <strong>{{ cajaActual?.fechaApertura || 'N/A' }}</strong></p>
+
+
+        <form [formGroup]="cajaForm" class="mt-3">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Monto en Efectivo (S/)</label>
+            <input type="number" class="form-control" formControlName="monto" placeholder="0.00">
+          </div>
+
+          <div class="d-flex gap-2" *ngIf="cajaActual?.estadoCaja !== 'ABIERTA'; else cerrarTurnoBtn">
+            <button type="button" class="btn btn-hotel-gold w-100 py-2" (click)="abrirTurno()">
+              Abrir Caja
+            </button>
+          </div>
+
+          <ng-template #cerrarTurnoBtn>
+            <button type="button" class="btn btn-danger w-100 py-2" (click)="cerrarTurno()">
+              Cerrar Turno de Caja
+            </button>
+          </ng-template>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

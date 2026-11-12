@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gestión de Tipos de Habitación</h2>
+    <button class="btn btn-primary" (click)="abrirModal()">
+      <i class="fas fa-plus"></i> Nuevo Tipo
+    </button>
+  </div>
+
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Estado</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tipo of tipos">
+              <td>{{ tipo.id }}</td>
+              <td class="fw-bold">{{ tipo.nombre }}</td>
+              <td>
+                <span class="badge" [ngClass]="tipo.activo ? 'bg-success' : 'bg-secondary'">
+                  {{ tipo.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="abrirModal(tipo)" title="Editar">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="confirmarDesactivar(tipo.id)" title="Desactivar">
+                  <i class="fas fa-trash"></i> Eliminar
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="tipos.length === 0">
+              <td colspan="4" class="text-center text-muted py-4">
+                No hay tipos de habitación registrados.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" [ngClass]="{'show d-block': isModalOpen}" tabindex="-1" *ngIf="isModalOpen" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editandoId ? 'Editar Tipo de Habitación' : 'Nuevo Tipo de Habitación' }}</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+      </div>
+      <form [formGroup]="tipoForm" (ngSubmit)="guardar()">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del Tipo</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre" placeholder="Ej. Matrimonial, Suite">
+            <div *ngIf="tipoForm.get('nombre')?.invalid && tipoForm.get('nombre')?.touched" class="text-danger small mt-1">
+              El nombre es obligatorio.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="tipoForm.invalid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" [ngClass]="{'show d-block': isConfirmModalOpen}" tabindex="-1" *ngIf="isConfirmModalOpen" style="background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow: hidden;">
+      <div class="modal-header text-white" style="background: #1e293b;">
+        <h5 class="modal-title fs-6 fw-semibold">
+          <i class="fas fa-exclamation-triangle text-warning me-2"></i> Confirmar Desactivación
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cerrarConfirmModal()"></button>
+      </div>
+      <div class="modal-body py-4 text-center">
+        <p class="text-secondary mb-0 fs-6">¿Estás seguro de eliminar este tipo de habitación?</p>
+        <small class="text-muted">El registro dejará de estar activo en el sistema.</small>
+      </div>
+      <div class="modal-footer bg-light justify-content-center border-0 pb-3">
+        <button type="button" class="btn btn-outline-secondary px-4 rounded-pill" (click)="cerrarConfirmModal()">Cancelar</button>
+        <button type="button" class="btn btn-danger px-4 rounded-pill" (click)="ejecutarDesactivacion()">Sí, eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

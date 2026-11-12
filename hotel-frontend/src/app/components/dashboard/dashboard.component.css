@@ -1,0 +1,74 @@
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f9;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: #1A3051;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  background-color: #12223a;
+  text-align: center;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 1rem 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1.5rem;
+  color: #b0c4de;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav .nav-link:hover, 
+.sidebar-nav .nav-link.active {
+  background-color: rgba(174, 159, 113, 0.15);
+  color: #AE9F71;
+  border-left: 4px solid #AE9F71;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-navbar {
+  height: 70px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e3e6f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.content-body {
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.badge-role {
+  background-color: #AE9F71;
+  color: #161616;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+}

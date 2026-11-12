@@ -1,0 +1,39 @@
+<div class="dashboard-wrapper">
+
+  <nav class="sidebar shadow">
+    <div class="sidebar-header">
+      <h4 class="fw-bold text-white mb-0">SICIG Hotel</h4>
+      <small class="text-warning">Panel de Control</small>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a routerLink="/dashboard" class="nav-link"><i class="bi bi-speedometer2 me-2"></i> Inicio</a></li>
+      <li><a routerLink="/dashboard/clientes" class="nav-link"><i class="bi bi-people me-2"></i> Clientes</a></li>
+      <li><a routerLink="/dashboard/habitaciones" class="nav-link"><i class="bi bi-door-open me-2"></i> Habitaciones</a></li>
+      <li><a routerLink="/dashboard/reservas" class="nav-link"><i class="bi bi-calendar-check me-2"></i> Reservas</a></li>
+      <li><a routerLink="/dashboard/caja" class="nav-link"><i class="bi bi-cash-stack me-2"></i> Caja y Turnos</a></li>
+    </ul>
+
+    <div class="p-3 bg-dark text-center">
+      <button class="btn btn-outline-light btn-sm w-100" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
+      </button>
+    </div>
+  </nav>
+
+
+  <div class="main-content">
+    <header class="top-navbar shadow-sm">
+      <h5 class="fw-bold mb-0" style="color: #1A3051;">Sistema de Gestión Hotelera</h5>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-secondary fw-semibold">Bienvenido, {{ nombreUsuario }}</span>
+        <span class="badge-role">{{ rolUsuario }}</span>
+      </div>
+    </header>
+
+    <main class="content-body">
+
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
